@@ -1,6 +1,22 @@
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
+from rdkit import Chem
+from rdkit.Chem import Draw
+from rdkit.Chem import AllChem
+from rdkit.Chem import ChemicalFeatures
+from rdkit.Chem import RWMol 
+from rdkit import RDConfig
+from rdkit import DataStructs
+import numpy as np
+import os
+fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
+factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
+
+ADD     = "add"
+REMOVE  = "remove"
+FRONT   = "front"
+BACK    = "back"
 
 
 class MoleculeEnvironment(gym.Env):
@@ -84,82 +100,8 @@ class MoleculeEnvironment(gym.Env):
             # can only remove query ie cannot but add
             return False
         
-class Action():
-    def __init__(self):
-        self.action_c = ''
-        self.pos = ''   #front or back
-        self.mol = ''
-        self.query = ''
-        self.isSmarts  = False
+ 
 
-    def setAction(self,action,pos='front',query='',mol='C',isSmarts=False): #mol
-        self.action_c  = action
-        self.mol       = mol
-        self.pos       = pos 
-        self.query     = query
-        self.isSmarts  = isSmarts        
-class Observation:
-    
-    def __init__(self, mol):
-        self.mol = mol
-        self.observation = Chem.MolToSmiles(mol)
-        self.info = []
-    
-   
-    def getInfo(self):
-        self.info.clear()
-        feats = factory.GetFeaturesForMol(self.mol)
-        fp = AllChem.GetMorganFingerprintAsBitVect(self.mol,2,nBits=1024)
-        
-        for y in feats:
-            self.info.append(y.GetType())
-        
-        DataStructs.ConvertToNumpyArray(fp,fp_arr)
-        self.bits = np.nonzero(fp_arr)   
-        return self.bits,self.info
 
-    
-    def getObservation(self):
-        self.observation = Chem.MolToSmiles(self.mol)
-        return self.observation
-        
-    def update(self,mol):
-        self.mol = mol 
-class Mol_Feature:
-    def __init__(self,smiles):
-        self.smiles = smiles
-        self.mol = RWMol(Chem.MolFromSmiles(smiles))
-        
-        #create a feature a numpy array
-        self.feats = factory.GetFeaturesForMol(self.mol)
-        self.feature_arr = np.array([y.GetType() for y in self.feats])
-        print(self.feature_arr)
-        
-        #create a morgen finger print array 
-        self.fp = AllChem.GetMorganFingerprintAsBitVect(self.mol,2,nBits=1024)
-        self.fp_arr = np.zeros((1,0))
-        DataStructs.ConvertToNumpyArray(self.fp,self.fp_arr)
-        np.nonzero(self.fp_arr)
-        
-    def getSmile(self):
-        return self.smiles
-    
-    def contains(self,query,isSmarts=False):
-        # check if query contains value in feature array  print list
-        if (len(self.feature_arr) !=0) & (query.size != 0) :
-            for feature in self.feature_arr:
-                for item in query:
-                    if feature == item:
-                        return True
-                
-        # check if query contains value in morgen fingerprint array
-        if (self.fp_arr.size !=0) & (query.size != 0) :
-            for fp in self.fp_arr:
-                for item in query:
-                    if item == fp:
-                        return True
-        
-                    
-        return False
     
     
