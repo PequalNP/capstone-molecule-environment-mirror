@@ -50,3 +50,37 @@ class MoleculeEnvironment(gym.Env):
         #TO-DO
         self.current_molecule  = RWMol(Chem.MolFromSmiles(Smiles))  
         self.molecule_list = [Mol_Feature(Smiles)]
+
+    def _listToSmiles(self):
+        smiles = ''
+        for mol_feat in self.molecule_list:
+            smiles += mol_feat.getSmile()
+        return smiles
+    
+    def _simpleStep(self,action,position,mol):
+        mol_feat = Mol_Feature(mol)
+        # add sub-molecule to smile string 
+        if action == ADD:
+            if position == FRONT:
+                self.molecule_list.insert(0,mol_feat)
+            elif position == BACK:  
+                self.molecule_list.append(mol_feat)
+                
+        # remove sub-molecule to smile string        
+        elif action == REMOVE:
+            if position == FRONT:
+                self.molecule_list.remove(self.molecule_list[0])
+            elif position == BACK:  
+                self.molecule_list.pop()
+                
+    def _queryStep(self,action,position,mol,query):
+        if action == REMOVE:
+            for mol_feature in self.molecule_list:
+                if mol_feature.contains(query)== True:
+                    self.molecule_list.remove(mol_feature)
+                    return True
+                
+        else: 
+            # can only remove query ie cannot but add
+            return False
+        
