@@ -40,7 +40,13 @@ class MoleculeEnvironment(gym.Env):
         self.smiles = []
         
     def render(self):
-        raise NotImplementedError
-
+        if len(self.mol_Steps) < 4:
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
+        else:
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
+        return img
+    
     def seed(self):
-        raise NotImplementedError
+        #TO-DO
+        self.current_molecule  = RWMol(Chem.MolFromSmiles(Smiles))  
+        self.molecule_list = [Mol_Feature(Smiles)]
