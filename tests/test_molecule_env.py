@@ -108,6 +108,7 @@ class TestMolEnv(unittest.TestCase):
         # img = Draw.MolsToGridImage(mols, molsPerRow=3, legends = [str(x) for x in legends])
 
         # self.assertEqual(self.env.render(), img)
+        pass
 
     def test_seed(self):
         mol = self.env._listToSmiles()
