@@ -1,3 +1,13 @@
+from rdkit.Chem import AllChem
+from rdkit.Chem import ChemicalFeatures
+from rdkit import RDConfig
+from rdkit import DataStructs
+from rdkit import Chem
+import numpy as np
+import os
+fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
+factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
+
 class Observation:
     
     def __init__(self, mol):
@@ -14,8 +24,8 @@ class Observation:
         for y in feats:
             self.info.append(y.GetType())
         
-        DataStructs.ConvertToNumpyArray(fp,fp_arr)
-        self.bits = np.nonzero(fp_arr)   
+        DataStructs.ConvertToNumpyArray(fp,self.info)
+        self.bits = np.nonzero(self.info)   
         return self.bits,self.info
 
     
