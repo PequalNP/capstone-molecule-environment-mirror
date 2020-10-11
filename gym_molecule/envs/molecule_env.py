@@ -9,6 +9,7 @@ from rdkit.Chem import RWMol
 from rdkit import RDConfig
 from rdkit import DataStructs
 from observation import Observation
+from action import Action
 import numpy as np
 import os
 fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
@@ -30,7 +31,7 @@ class MoleculeEnvironment(gym.Env):
         self.mol_Steps =[]
         self.smiles = []
         
-    def step(self):
+    def step(self,action_ob):
         action    = action_ob.action_c.lower()
         position  = action_ob.pos
         mol       = action_ob.mol
@@ -63,7 +64,7 @@ class MoleculeEnvironment(gym.Env):
             img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
         return img
     
-    def seed(self):
+    def seed(self,Smiles):
         #TO-DO
         self.current_molecule  = RWMol(Chem.MolFromSmiles(Smiles))  
         self.molecule_list = [Mol_Feature(Smiles)]
