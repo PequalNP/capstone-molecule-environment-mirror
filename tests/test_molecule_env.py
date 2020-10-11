@@ -128,6 +128,11 @@ class TestMolEnv(unittest.TestCase):
 
         self.assertEqual(self.env._listToSmiles(), "CCC")
 
+        self.action.setAction("add", pos="front", mol="C1=CC=CC=C1")
+        self.env.step(self.action)
+
+        self.assertEqual(self.env._listToSmiles(), "C1=CC=CC=C1CCC")
+
     def test_simpleStep(self):
         self.env._simpleStep("add","front","C")
         s = Chem.CanonSmiles("CCC")
