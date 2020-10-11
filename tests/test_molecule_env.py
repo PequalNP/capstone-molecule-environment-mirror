@@ -1,5 +1,6 @@
 import unittest
 from .context import molecule_env
+from .context import action
 from rdkit import Chem
 from rdkit.Chem import Draw
 from rdkit.Chem import AllChem
@@ -10,7 +11,7 @@ class TestMolEnv(unittest.TestCase):
 
     def setUp(self):
         self.env = molecule_env.MoleculeEnvironment()
-        self.action = Action()
+        self.action = action.Action()
         self.action.setAction("add",pos="back",mol="C")
         self.env.step(self.action)
 
