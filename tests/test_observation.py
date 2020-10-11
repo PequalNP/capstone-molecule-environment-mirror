@@ -3,6 +3,7 @@ from .context import observation
 from rdkit import Chem
 from rdkit.Chem import ChemicalFeatures
 from rdkit.Chem import RWMol
+from rdkit import RDConfig
 import os
 fdefName = os.path.join(RDConfig.RDDataDir, 'BaseFeatures.fdef')
 factory = ChemicalFeatures.BuildFeatureFactory(fdefName)

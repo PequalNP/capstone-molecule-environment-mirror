@@ -8,6 +8,7 @@ from rdkit.Chem import ChemicalFeatures
 from rdkit.Chem import RWMol 
 from rdkit import RDConfig
 from rdkit import DataStructs
+from observation import Observation
 import numpy as np
 import os
 fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
