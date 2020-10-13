@@ -27,8 +27,8 @@ class MoleculeEnvironment(gym.Env):
         self.current_molecule  = RWMol(Chem.MolFromSmiles(default_smile))  
         self.obs = Observation(self.current_molecule)
         self.molecule_list = [Mol_Feature(default_smile)]
-        # self.mol_Steps =[]
-        # self.smiles = []
+        self.mol_Steps =[]
+        self.smiles = []
         self.root = Toplevel()
         self.gui = Render(self.root)
         img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
@@ -47,9 +47,9 @@ class MoleculeEnvironment(gym.Env):
         self.current_molecule = RWMol(Chem.MolFromSmiles(self._listToSmiles()))  
         
         self.obs.update(self.current_molecule) 
-        # self.mol_Steps.append(self.current_molecule)
-        # legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
-        # self.smiles.append(legend) 
+        self.mol_Steps.append(self.current_molecule)
+        legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
+        self.smiles.append(legend) 
 
         img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
         self.gui.update(img)
