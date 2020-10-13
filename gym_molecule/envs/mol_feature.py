@@ -29,7 +29,7 @@ class Mol_Feature:
     def getSmile(self):
         return self.smiles
     
-    def contains(self,query,isSmarts=False):
+    def contains(self,query):
         # check if query contains value in feature array  print list
         if (len(self.feature_arr) !=0) & (query.size != 0) :
             for feature in self.feature_arr:

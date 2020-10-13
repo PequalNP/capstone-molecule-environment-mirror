@@ -65,14 +65,15 @@ class MoleculeEnvironment(gym.Env):
         # self.mol_Steps =[]
         # self.smiles = []
         
-    def render(self):
-        self.gui.render()
-        self.root.mainloop()
-        # if len(self.mol_Steps) < 4:
-        #     img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
-        # else:
-        #     img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
-        # return img
+    def render(self,ui=False):
+        if(ui):
+            self.gui.render()
+            self.root.mainloop()
+        if len(self.mol_Steps) < 4:
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
+        else:
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
+        return img
     
     def seed(self,Smiles):
         #TO-DO
