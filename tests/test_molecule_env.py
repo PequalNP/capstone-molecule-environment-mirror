@@ -73,11 +73,6 @@ class TestMolEnv(unittest.TestCase):
         l = "3. " + self.env._listToSmiles()
         legends.append(l)
         
-        #test legend?
-        self.assertEqual(len(self.env.mol_Steps), len(mols))
-        #test mol steps?
-        self.assertEqual(len(self.env.smiles), len(legends))
-
     def test_reset(self):
         mol = self.env._listToSmiles()
 
