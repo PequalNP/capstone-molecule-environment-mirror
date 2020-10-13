@@ -1,6 +1,5 @@
 from tkinter import *
-from molecule_env import MoleculeEnvironment
-from action import Action
+from .molecule_env import MoleculeEnvironment
 from PIL import ImageTk
 
 
