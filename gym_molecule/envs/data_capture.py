@@ -13,7 +13,7 @@ class Datacapture:
     
     def __init__(self,current_mol):
         self.current_mol = current_mol
-        self.sol = pd.read_csv('./delaney.csv')
+        self.sol = pd.read_csv('./gym_molecule/envs/resources/delaney.csv')
         self.mol_list= []
         for element in self.sol.SMILES:
               mol = Chem.MolFromSmiles(element)
