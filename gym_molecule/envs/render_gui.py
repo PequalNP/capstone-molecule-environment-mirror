@@ -8,6 +8,7 @@ class Render():
         self.mols = []
         self.obs1 = []
         self.obs2 = []
+        self.frames = []
         
         self.index = -1
         self.current = -1
@@ -80,4 +81,12 @@ class Render():
         prevButton.pack(side=LEFT)
         nextButton = Button(self.bottomFrame, text="NEXT", command = self.nxt)
         nextButton.pack(side=RIGHT)
+
+    def reset(self):
+        self.mols = []
+        self.obs1 = []
+
+    def updateGif(self, ind):
+        frame = frames[ind]
+        ind +=1
 
