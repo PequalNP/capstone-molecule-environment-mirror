@@ -9,6 +9,8 @@ dependencies:
   - matplotlib
   - rdkit
   - sphinx
+  - pandas
+  - scikit-learn
   - flake8
   - pytest
   - pytest-cov
