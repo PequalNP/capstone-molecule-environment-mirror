@@ -7,7 +7,6 @@ from sklearn import linear_model
 from sklearn.metrics import mean_squared_error, r2_score
 from rdkit import Chem
 from rdkit.Chem import Descriptors
-import imageio
 
 
 class Datacapture:
@@ -189,19 +188,3 @@ class Datacapture:
             ax.view_init(elev=32, azim=ii)
             fig.savefig('./resources/%d.png' % ii)
         
-
-        # filepaths
-        png_dir = './resources/'
-        gif_dir = './resources/regr.gif'
-        def zero(elem):
-            return elem[0]
-        images = []
-        im = []
-        count= 0
-        for file_name in os.listdir(png_dir):
-            if file_name.endswith('.png'):
-                file_path = os.path.join(png_dir, file_name)
-                im.append((int(file_name.split('.')[0]),imageio.imread(file_path)))
-        im.sort(key=zero)
-        images = [path[1] for path in im]
-        imageio.mimsave(gif_dir, images)
