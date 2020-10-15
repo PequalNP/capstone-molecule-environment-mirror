@@ -7,13 +7,14 @@ from sklearn import linear_model
 from sklearn.metrics import mean_squared_error, r2_score
 from rdkit import Chem
 from rdkit.Chem import Descriptors
+import imageio
 
 
 class Datacapture:
     
     def __init__(self,current_mol):
         self.current_mol = current_mol
-        self.sol = pd.read_csv('delaney.csv')
+        self.sol = pd.read_csv('./resources/delaney.csv')
         self.mol_list= []
         for element in self.sol.SMILES:
               mol = Chem.MolFromSmiles(element)
@@ -29,7 +30,7 @@ class Datacapture:
                 
             baseData= np.arange(1,1)
             i=0  
-            for mol in moldata:
+            for mol in moldata:        
 
                 desc_MolLogP = Descriptors.MolLogP(mol)
                 desc_MolWt = Descriptors.MolWt(mol)
@@ -152,39 +153,55 @@ class Datacapture:
 
         plt.style.use('default')
 
-        fig = plt.figure(figsize=(12, 4))
+        fig = plt.figure()
 
-        ax1 = fig.add_subplot(131, projection='3d')
-        ax2 = fig.add_subplot(132, projection='3d')
-        ax3 = fig.add_subplot(133, projection='3d')
+        ax = fig.add_subplot( projection='3d')
+#         ax2 = fig.add_subplot(132, projection='3d')
+#         ax3 = fig.add_subplot(133, projection='3d')
 
-        axes = [ax1, ax2, ax3]
+#         axes = [ax1, ax2, ax3]
        
-        for ax in axes:
-            ax.plot(x, y, z, color='k', zorder=15, linestyle='none', marker='o', alpha=0.5)
-            ax.scatter(xx_pred.flatten(), yy_pred.flatten(), predicted, facecolor=(0,0,0,0), s=20, edgecolor='#70b3f0')
-            ax.set_xlabel('MolLogP', fontsize=12)
-            ax.set_ylabel('MolWt', fontsize=12)
-            ax.set_zlabel('Predicted LogS', fontsize=12)
-            ax.locator_params(nbins=4, axis='x')
-            ax.locator_params(nbins=5, axis='x')
-       
-            ax.plot(curr_x, curr_y,curr_z,color='r', zorder=15, linestyle='none', marker='o', alpha=1)
-            ax.plot([x_centriod], [y_centriod],[z_centriod],color='b', zorder=15, linestyle='none', marker='o', alpha=1)
+        ax.plot(x, y, z, color='k', zorder=15, linestyle='none', marker='o', alpha=0.5)
+        ax.scatter(xx_pred.flatten(), yy_pred.flatten(), predicted, facecolor=(0,0,0,0), s=20, edgecolor='#70b3f0')
+        ax.set_xlabel('MolLogP', fontsize=12)
+        ax.set_ylabel('MolWt', fontsize=12)
+        ax.set_zlabel('Predicted LogS', fontsize=12)
+        ax.locator_params(nbins=4, axis='x')
+        ax.locator_params(nbins=5, axis='x')
 
+        ax.plot(curr_x, curr_y,curr_z,color='r', zorder=15, linestyle='none', marker='o', alpha=1)
+        ax.plot([x_centriod], [y_centriod],[z_centriod],color='b', zorder=15, linestyle='none', marker='o', alpha=1)
+    
         
         
         # distance from centroid 
         dist = sqrt((curr_x)**2 + (curr_y)**2 + (curr_z)**2)
         
-        ax1.view_init(elev=20, azim=100)
-        ax2.view_init(elev=4, azim=114)
-        ax3.view_init(elev=60, azim=165)
+        ax.view_init(elev=60, azim=165)
+#         ax2.view_init(elev=4, azim=114)
+#         ax3.view_init(elev=60, azim=165)
         
        
-        fig.suptitle('$Dist_{mol-centroid} = %.2f$ $  R^2 = %.2f$' % (dist,r2) , fontsize=20)
-        fig.tight_layout()
+        fig.suptitle('$Dist_{mol-centroid} = %.2f$ $  R^2 = %.2f$' % (dist,r2) )
         
-#         for ii in np.arange(0, 360, 1):
-#             ax.view_init(elev=32, azim=ii)
-#             fig.savefig('gif_image%d.png' % ii)
+
+        for ii in np.arange(0, 360, 1):
+            ax.view_init(elev=32, azim=ii)
+            fig.savefig('./resources/%d.png' % ii)
+        
+
+        # filepaths
+        png_dir = './resources/'
+        gif_dir = './resources/regr.gif'
+        def zero(elem):
+            return elem[0]
+        images = []
+        im = []
+        count= 0
+        for file_name in os.listdir(png_dir):
+            if file_name.endswith('.png'):
+                file_path = os.path.join(png_dir, file_name)
+                im.append((int(file_name.split('.')[0]),imageio.imread(file_path)))
+        im.sort(key=zero)
+        images = [path[1] for path in im]
+        imageio.mimsave(gif_dir, images)
