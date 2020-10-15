@@ -24,8 +24,8 @@ class Observation:
         for y in feats:
             self.info.append(y.GetType())
         
-        DataStructs.ConvertToNumpyArray(fp,self.info)
-        self.bits = np.nonzero(self.info)   
+        DataStructs.ConvertToNumpyArray(fp)
+        self.bits = np.nonzero(fp)   
         return self.bits,self.info
 
     
