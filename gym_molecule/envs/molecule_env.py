@@ -8,6 +8,7 @@ from rdkit import RDConfig
 from .observation import Observation
 from .mol_feature import Mol_Feature
 from .render_gui import Render
+from .data_capture import Datacapture
 import numpy as np
 from tkinter import *
 import os
@@ -27,7 +28,9 @@ class MoleculeEnvironment(gym.Env):
         self.current_molecule  = RWMol(Chem.MolFromSmiles(default_smile))  
         self.obs = Observation(self.current_molecule)
         self.molecule_list = [Mol_Feature(default_smile)]
-        self.mol_Steps =[]
+        self.datacapture = Datacapture(self.current_molecule)
+        self.datacapture.processing()
+        self.mol_Steps =[self.current_molecule]
         self.smiles = []
         self.root = Toplevel()
         self.gui = Render(self.root)
@@ -45,6 +48,7 @@ class MoleculeEnvironment(gym.Env):
         else :
             self._simpleStep(action,position,mol)
         self.current_molecule = RWMol(Chem.MolFromSmiles(self._listToSmiles()))  
+        self.datacapture.processing()
         
         self.obs.update(self.current_molecule) 
         self.mol_Steps.append(self.current_molecule)
@@ -62,8 +66,10 @@ class MoleculeEnvironment(gym.Env):
         self.molecule_list = [Mol_Feature(default_smile)]
         img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
         self.gui.update(img)
-        # self.mol_Steps =[]
-        # self.smiles = []
+        self.mol_Steps =[self.current_molecule]
+        self.smiles = []
+        self.datacapture = Datacapture(self.current_molecule)
+        self.datacapture.processing()
         
     def render(self,ui=False):
         if(ui):
