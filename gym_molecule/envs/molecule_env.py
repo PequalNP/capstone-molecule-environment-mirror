@@ -32,7 +32,7 @@ class MoleculeEnvironment(gym.Env):
         self.datacapture.processing()
         self.mol_Steps =[self.current_molecule]
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
-        self.smiles.append(legend)
+        self.smiles = [legend]
         if os.environ.get('Display','') != '':
             self.root = Toplevel()
             self.gui = Render(self.root)
