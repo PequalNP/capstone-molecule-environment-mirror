@@ -34,7 +34,7 @@ class Render():
         self.index += 1
         # self.frames = [PhotoImage(file='./resources/regr.gif',format = 'gif -index %i' %(i)) for i in range(360)]
         for i in range(360):
-            pic = "./resources/"+str(i)+".png"
+            pic = "/gym_molecule/envs/resources/"+str(i)+".png"
             frame = ImageTk.PhotoImage(Image.open(pic))
             self.frames.append(frame)
         self.obs.append(self.frames)

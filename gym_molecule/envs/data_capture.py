@@ -13,7 +13,7 @@ class Datacapture:
     
     def __init__(self,current_mol):
         self.current_mol = current_mol
-        self.sol = pd.read_csv('./gym_molecule/envs/resources/delaney.csv')
+        self.sol = pd.read_csv('gym_molecule/envs/resources/delaney.csv')
         self.mol_list= []
         for element in self.sol.SMILES:
               mol = Chem.MolFromSmiles(element)
@@ -186,5 +186,5 @@ class Datacapture:
 
         for ii in np.arange(0, 360, 1):
             ax.view_init(elev=32, azim=ii)
-            fig.savefig('./resources/%d.png' % ii)
+            fig.savefig('gym_molecule/envs/resources/%d.png' % ii)
         
