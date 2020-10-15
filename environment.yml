@@ -6,6 +6,7 @@ channels:
 dependencies:
   - python=3.7.7
   - pip
+  - matplotlib
   - rdkit
   - sphinx
   - flake8
