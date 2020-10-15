@@ -33,7 +33,7 @@ class MoleculeEnvironment(gym.Env):
         self.mol_Steps =[self.current_molecule]
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
         self.smiles = [legend]
-        if os.environ.get('Display','') != '':
+        if os.environ.get('DISPLAY','') != '':
             self.root = Toplevel()
             self.gui = Render(self.root)
             img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
@@ -59,7 +59,7 @@ class MoleculeEnvironment(gym.Env):
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
         self.smiles.append(legend) 
 
-        if os.environ.get('Display','') != '':
+        if os.environ.get('DISPLAY','') != '':
             img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
             self.gui.update(img)
 
@@ -75,13 +75,13 @@ class MoleculeEnvironment(gym.Env):
         self.smiles.append(legend) 
         self.datacapture = Datacapture(self.current_molecule)
         self.datacapture.processing()
-        if os.environ.get('Display','') != '':
+        if os.environ.get('DISPLAY','') != '':
             self.gui.reset()
             img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
             self.gui.update(img)
         
     def render(self,ui=False):
-        if(ui and os.environ.get('Display','') != ''):
+        if(ui and os.environ.get('DISPLAY','') != ''):
             self.gui.render()
             self.root.mainloop()
         if len(self.mol_Steps) < 4:
