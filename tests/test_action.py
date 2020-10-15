@@ -12,7 +12,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(act.query, "")
         self.assertFalse(act.isSmarts, "")
 
-        act.setAction("add", "front", "C")
+        act.setAction("add", pos="front", mol="C")
 
         self.assertEqual(act.action_c, "add")
         self.assertEqual(act.pos, "front")
