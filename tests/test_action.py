@@ -4,18 +4,18 @@ import unittest
 class TestAction(unittest.TestCase):
 
     def test_setAction(self):
-        action = action.Action()
+        act = action.Action()
 
-        self.assertEqual(action.action_c, "")
-        self.assertEqual(action.pos, "")
-        self.assertEqual(action.mol, "")
-        self.assertEqual(action.query, "")
-        self.assertFalse(action.isSmarts, "")
+        self.assertEqual(act.action_c, "")
+        self.assertEqual(act.pos, "")
+        self.assertEqual(act.mol, "")
+        self.assertEqual(act.query, "")
+        self.assertFalse(act.isSmarts, "")
 
-        action.setAction("add", "front", "C")
+        act.setAction("add", "front", "C")
 
-        self.assertEqual(action.action_c, "add")
-        self.assertEqual(action.pos, "front")
-        self.assertEqual(action.mol, "C")
-        self.assertEqual(action.query, "")
-        self.assertFalse(action.isSmarts)
+        self.assertEqual(act.action_c, "add")
+        self.assertEqual(act.pos, "front")
+        self.assertEqual(act.mol, "C")
+        self.assertEqual(act.query, "")
+        self.assertFalse(act.isSmarts)
