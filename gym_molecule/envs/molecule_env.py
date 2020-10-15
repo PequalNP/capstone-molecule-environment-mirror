@@ -65,11 +65,12 @@ class MoleculeEnvironment(gym.Env):
         self.obs = Observation(self.current_molecule)
         self.molecule_list = [Mol_Feature(default_smile)]
         img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
-        self.gui.update(img)
+        self.gui.reset()
         self.mol_Steps =[self.current_molecule]
         self.smiles = []
         self.datacapture = Datacapture(self.current_molecule)
         self.datacapture.processing()
+        self.gui.update(self.current_molecule)
         
     def render(self,ui=False):
         if(ui):
@@ -118,9 +119,5 @@ class MoleculeEnvironment(gym.Env):
         else: 
             # can only remove query ie cannot but add
             return False
-        
- 
-
-
-    
+            
     
