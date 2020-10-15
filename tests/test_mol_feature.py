@@ -9,7 +9,7 @@ class TestMolFeature(unittest.TestCase):
         self.feat = mol_feature.Mol_Feature(mol)
        
     def test_getSmile(self):
-        self.assertEquals(self.feat.getSmile(), "C")
+        self.assertEquals(self.feat.getSmile(), 'C(=O)OC1=CC=CC=C1')
 
     def test_contains(self):
         self.assertTrue(self.feat.contains(np.array(['Arom6'])))
