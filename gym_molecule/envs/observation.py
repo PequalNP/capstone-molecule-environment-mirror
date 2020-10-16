@@ -20,12 +20,12 @@ class Observation:
         self.info.clear()
         feats = factory.GetFeaturesForMol(self.mol)
         fp = AllChem.GetMorganFingerprintAsBitVect(self.mol,2,nBits=1024)
-        
+        fp_arr = np.zeros((1,))
         for y in feats:
             self.info.append(y.GetType())
         
-        DataStructs.ConvertToNumpyArray(fp)
-        self.bits = np.nonzero(fp)   
+        DataStructs.ConvertToNumpyArray(fp,fp_arr)
+        self.bits = np.nonzero(fp_arr)   
         return self.bits,self.info
 
     
