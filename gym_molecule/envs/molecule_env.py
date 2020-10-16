@@ -33,6 +33,7 @@ class MoleculeEnvironment(gym.Env):
         self.mol_Steps =[self.current_molecule]
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
         self.smiles = [legend]
+
         if os.environ.get('DISPLAY','') != '':
             self.root = Toplevel()
             self.gui = Render(self.root)
@@ -48,7 +49,7 @@ class MoleculeEnvironment(gym.Env):
         query     = action_ob.query 
         
         if (isinstance(action_ob.query,np.ndarray)):  
-            self._queryStep(action,position,mol,query)
+            self._queryStep(query)
         else :
             self._simpleStep(action,position,mol)
         self.current_molecule = RWMol(Chem.MolFromSmiles(self._listToSmiles()))  
@@ -70,11 +71,14 @@ class MoleculeEnvironment(gym.Env):
         self.current_molecule  = RWMol(Chem.MolFromSmiles(default_smile))  
         self.obs = Observation(self.current_molecule)
         self.molecule_list = [Mol_Feature(default_smile)]
+
         self.mol_Steps =[self.current_molecule]
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
         self.smiles.append(legend) 
+
         self.datacapture = Datacapture(self.current_molecule)
         self.datacapture.processing()
+
         if os.environ.get('DISPLAY','') != '':
             self.gui.reset()
             img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
@@ -84,11 +88,11 @@ class MoleculeEnvironment(gym.Env):
         if(ui and os.environ.get('DISPLAY','') != ''):
             self.gui.render()
             self.root.mainloop()
-        if len(self.mol_Steps) < 4:
-            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
         else:
-            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
-        return img
+            if len(self.mol_Steps) < 4:
+                img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
+            else:
+                img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
     
     def seed(self,Smiles):
         #TO-DO
@@ -117,7 +121,7 @@ class MoleculeEnvironment(gym.Env):
             elif position == BACK:  
                 self.molecule_list.pop()
                 
-    def _queryStep(self,action,position,mol,query):
+    def _queryStep(self,query):
         if action == REMOVE:
             for mol_feature in self.molecule_list:
                 if mol_feature.contains(query)== True:
