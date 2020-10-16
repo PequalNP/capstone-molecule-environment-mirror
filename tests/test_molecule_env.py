@@ -130,9 +130,9 @@ class TestMolEnv(unittest.TestCase):
 
     def test_queryStep(self):
         self.env.seed('C(=O)OC1=CC=CC=C1')
-        query = self.env._queryStep(query=np.array(['Arom6']))
+        query = self.env._queryStep("remove",query=np.array(['Arom6']))
         self.assertTrue(query)
-        smiles = self.env.smiles
+        smiles = self.env._listToSmiles()
         s = Chem.CanonSmiles(smiles)
         m = Chem.CanonSmiles('C(=O)O')
         self.assertEqual(m, s)
