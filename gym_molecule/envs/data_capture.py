@@ -12,13 +12,11 @@ from rdkit.Chem import Descriptors
 
 
 class Datacapture:
-    """
-    Processes the training data to compare our current molecule with the drugs in the market
+    """Processes the training data to compare our current molecule with the drugs in the market
     """
     
     def __init__(self,current_mol):
-        """
-        This is the constructor
+        """This is the constructor
 
         :param current_mol: The current molecule
         :type current_mol: RWMol
@@ -32,8 +30,7 @@ class Datacapture:
             
    
     def generate(self,smiles, verbose=False):
-        """
-        Get required information about all the molecules in the data set
+        """Get required information about all the molecules in the data set
 
         :param smiles: List of smiles strings of all the molecules in the data set
         :type smiles: string[]
@@ -73,8 +70,7 @@ class Datacapture:
 
 
     def current_generate(self):
-        """
-        Gets the required information about the current molecule
+        """Gets the required information about the current molecule
 
         :return: Tabular data of the current molecule
         :rtype: pandas.DataFrame
@@ -100,8 +96,7 @@ class Datacapture:
         return descriptors
     
     def AromaticAtoms(self,m):
-        """
-        Gets the number of aromatic atoms in the molecule
+        """Gets the number of aromatic atoms in the molecule
 
         :param m: The current molecule in the environment
         :type m: RWMol
@@ -117,8 +112,7 @@ class Datacapture:
         return sum_aa_count
         
     def processing(self):
-        """
-        Plots the graph, trains and evaluates the model
+        """Plots the graph, trains and evaluates the model
         """
         ######################################## Data preparation #########################################
 
