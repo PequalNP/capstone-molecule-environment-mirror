@@ -11,7 +11,18 @@ factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
 
 
 class Mol_Feature:
+    """
+    Provides easy access to molecule features
+    """
+
     def __init__(self,smiles):
+        """
+        This is the constructor
+
+        :param smiles: The smile string for the molecule
+        :type smiles: string
+        """
+
         self.smiles = smiles
         self.mol = RWMol(Chem.MolFromSmiles(smiles))
         
@@ -27,9 +38,23 @@ class Mol_Feature:
         np.nonzero(self.fp_arr)
         
     def getSmile(self):
+        """
+        Used to get the smiles string of the molecule
+
+        :return: The smiles string for the molecule
+        :rtype: string
+        """
         return self.smiles
     
     def contains(self,query):
+        """
+        Used to query molecule features and morgen fingerprints
+
+        :param query: An array molecule features and morgen fingerprint to be compared
+        :type query: numpy.Array
+        :return: Whether atleast one of the item in the query array is present in the molecules features or morgen fingerprints
+        :rtype: bool
+        """
         # check if query contains value in feature array  print list
         if (len(self.feature_arr) !=0) & (query.size != 0) :
             for feature in self.feature_arr:

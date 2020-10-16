@@ -12,8 +12,15 @@ from rdkit.Chem import Descriptors
 
 
 class Datacapture:
+    """
+    """
     
     def __init__(self,current_mol):
+        """[summary]
+
+        :param current_mol: The current molecule
+        :type current_mol: RWMol
+        """
         self.current_mol = current_mol
         self.sol = pd.read_csv('gym_molecule/envs/resources/delaney.csv')
         self.mol_list= []
@@ -23,37 +30,24 @@ class Datacapture:
             
    
     def generate(self,smiles, verbose=False):
+        """[summary]
 
-            moldata= []
-            for elem in smiles:
-                mol=Chem.MolFromSmiles(elem) 
-                moldata.append(mol)
-                
-            baseData= np.arange(1,1)
-            i=0  
-            for mol in moldata:        
+        :param smiles: [description]
+        :type smiles: [type]
+        :param verbose: [description], defaults to False
+        :type verbose: bool, optional
+        :return: [description]
+        :rtype: [type]
+        """
 
-                desc_MolLogP = Descriptors.MolLogP(mol)
-                desc_MolWt = Descriptors.MolWt(mol)
-                desc_NumRotatableBonds = Descriptors.NumRotatableBonds(mol)
-
-                row = np.array([desc_MolLogP,
-                                desc_MolWt,
-                                desc_NumRotatableBonds])   
-
-                if(i==0):
-                    baseData=row
-                else:
-                    baseData=np.vstack([baseData, row])
-                i=i+1      
-
-            columnNames=["MolLogP","MolWt","NumRotatableBonds"]   
-            descriptors = pd.DataFrame(data=baseData,columns=columnNames)
-
-            return descriptors
-    def current_generate(self):
-
-            mol=self.current_mol 
+        moldata= []
+        for elem in smiles:
+            mol=Chem.MolFromSmiles(elem) 
+            moldata.append(mol)
+            
+        baseData= np.arange(1,1)
+        i=0  
+        for mol in moldata:        
 
             desc_MolLogP = Descriptors.MolLogP(mol)
             desc_MolWt = Descriptors.MolWt(mol)
@@ -63,25 +57,63 @@ class Datacapture:
                             desc_MolWt,
                             desc_NumRotatableBonds])   
 
-            baseData= row
-            baseData=np.vstack([baseData])
-                
+            if(i==0):
+                baseData=row
+            else:
+                baseData=np.vstack([baseData, row])
+            i=i+1      
 
-            columnNames=["MolLogP","MolWt","NumRotatableBonds"]   
-            descriptors = pd.DataFrame(data=baseData,columns=columnNames)
+        columnNames=["MolLogP","MolWt","NumRotatableBonds"]   
+        descriptors = pd.DataFrame(data=baseData,columns=columnNames)
 
-            return descriptors
+        return descriptors
+
+
+    def current_generate(self):
+        """[summary]
+
+        :return: [description]
+        :rtype: pandas
+        """
+
+        mol=self.current_mol 
+
+        desc_MolLogP = Descriptors.MolLogP(mol)
+        desc_MolWt = Descriptors.MolWt(mol)
+        desc_NumRotatableBonds = Descriptors.NumRotatableBonds(mol)
+
+        row = np.array([desc_MolLogP,
+                        desc_MolWt,
+                        desc_NumRotatableBonds])   
+
+        baseData= row
+        baseData=np.vstack([baseData])
+            
+
+        columnNames=["MolLogP","MolWt","NumRotatableBonds"]   
+        descriptors = pd.DataFrame(data=baseData,columns=columnNames)
+
+        return descriptors
     
     def AromaticAtoms(self,m):
-          aromatic_atoms = [m.GetAtomWithIdx(i).GetIsAromatic() for i in range(m.GetNumAtoms())]
-          aa_count = []
-          for i in aromatic_atoms:
+        """[summary]
+
+        :param m: [description]
+        :type m: [type]
+        :return: [description]
+        :rtype: [type]
+        """
+        aromatic_atoms = [m.GetAtomWithIdx(i).GetIsAromatic() for i in range(m.GetNumAtoms())]
+        aa_count = []
+        for i in aromatic_atoms:
             if i==True:
-              aa_count.append(1)
-          sum_aa_count = sum(aa_count)
-          return sum_aa_count
+                aa_count.append(1)
+        sum_aa_count = sum(aa_count)
+        return sum_aa_count
         
     def processing(self):
+        """[summary]
+        """
         ######################################## Data preparation #########################################
 
         df = self.generate(self.sol.SMILES)

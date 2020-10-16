@@ -22,7 +22,16 @@ BACK    = "back"
 
 
 class MoleculeEnvironment(gym.Env):
+    """
+    This class is a subclass of gym.Env
+
+    :param gym: The class to enherit from
+    :type gym: gym.Env
+    """
     def __init__(self):
+        """
+        This is the constructor
+        """
         super().__init__()
         default_smile = 'C'
         self.current_molecule  = RWMol(Chem.MolFromSmiles(default_smile))  
@@ -34,7 +43,7 @@ class MoleculeEnvironment(gym.Env):
         legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
         self.smiles = [legend]
 
-        if os.environ.get('DISPLAY','') != '':
+        if os.environ.get('DISPLAY','') != '': #check if there is a display available
             self.root = Toplevel()
             self.gui = Render(self.root)
             img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
@@ -43,6 +52,14 @@ class MoleculeEnvironment(gym.Env):
             print('No display found!')
         
     def step(self,action_ob):
+        """
+        Used to perform actions on the current molecule in the environment
+
+        :param action_ob: The action to be taken on the current molecule
+        :type action_ob: Action
+        :return: Information about the resulting molecule
+        :rtype: Observation
+        """
         action    = action_ob.action_c.lower()
         position  = action_ob.pos
         mol       = action_ob.mol
@@ -67,6 +84,9 @@ class MoleculeEnvironment(gym.Env):
         return self.obs    
 
     def reset(self):
+        """
+        Resets the environment to its default state
+        """
         default_smile = 'C'
         self.current_molecule  = RWMol(Chem.MolFromSmiles(default_smile))  
         self.obs = Observation(self.current_molecule)
@@ -85,27 +105,56 @@ class MoleculeEnvironment(gym.Env):
             self.gui.update(img)
         
     def render(self,ui=False):
+        """
+        Renders the state of the environment
+
+        :param ui: Used tell the system whether a GUI is required, defaults to False
+        :type ui: bool, optional
+        """
         if(ui and os.environ.get('DISPLAY','') != ''):
             self.gui.render()
             self.root.mainloop()
+
+        if len(self.mol_Steps) < 4:
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
         else:
-            if len(self.mol_Steps) < 4:
-                img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = len(self.mol_Steps), legends = [str(x) for x in self.smiles])
-            else:
-                img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
+            img = Draw.MolsToGridImage(self.mol_Steps, molsPerRow = 4, legends = [str(x) for x in self.smiles])
+        return img
     
     def seed(self,Smiles):
+        """
+        Resets the environment to a specified molecule
+
+        :param Smiles: Smiles string for the molecule
+        :type Smiles: string
+        """
         #TO-DO
         self.current_molecule  = RWMol(Chem.MolFromSmiles(Smiles))  
         self.molecule_list = [Mol_Feature(Smiles)]
 
     def _listToSmiles(self):
+        """
+        Generates the SMILES string of the current molecule
+
+        :return: The smiles string of the current molecule
+        :rtype: string
+        """
         smiles = ''
         for mol_feat in self.molecule_list:
             smiles += mol_feat.getSmile()
         return smiles
     
     def _simpleStep(self,action,position,mol):
+        """
+        Perfoms the action to be taken
+
+        :param action: The type action to be taken
+        :type action: string
+        :param position: The position where the action should be taken
+        :type position: string
+        :param mol: Smiles string of the molecule associated with the action
+        :type mol: string
+        """
         mol_feat = Mol_Feature(mol)
         # add sub-molecule to smile string 
         if action == ADD:
@@ -122,6 +171,16 @@ class MoleculeEnvironment(gym.Env):
                 self.molecule_list.pop()
                 
     def _queryStep(self, action, query):
+        """
+        Removes parts of the molecule according to their features
+
+        :param action: The type of action
+        :type action: string
+        :param query: An array of molecule features to be queried
+        :type query: numpy.Array
+        :return: Whether the query action was succesful
+        :rtype: bool
+        """
         if action == REMOVE:
             for mol_feature in self.molecule_list:
                 if mol_feature.contains(query)== True:
