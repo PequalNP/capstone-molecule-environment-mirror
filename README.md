@@ -43,8 +43,6 @@ from gym_molecule.envs.action import Action
 my_env = MolEnv()
 ```
 
-    []
-    No display found!
     
 
 MoleculeEnvironment Initialises to a single carbon atom ('C')  we can display this by running render() method.
@@ -57,7 +55,7 @@ my_env.render()
 
 
 
-![png](output_6_0.png)
+![png](README_img/output_6_0.png)
 
 
 
@@ -83,7 +81,7 @@ my_env.render()
 
 
 
-![png](output_10_1.png)
+![png](README_img/output_10_1.png)
 
 
 
@@ -96,13 +94,10 @@ my_env.step(action)
 my_env.render()
 ```
 
-    ['Arom6' 'RH6_6']
-    
 
 
 
-
-![png](output_12_1.png)
+![png](README_img/output_12_1.png)
 
 
 
@@ -123,7 +118,7 @@ my_env.render()
 
 
 
-![png](output_15_1.png)
+![png](README_img/output_15_1.png)
 
 
 
@@ -140,7 +135,7 @@ my_env.render()
 
 
 
-![png](output_16_1.png)
+![png](README_img/output_16_1.png)
 
 
 
@@ -161,7 +156,7 @@ my_env.render()
 
 
 
-![png](output_19_1.png)
+![png](README_img/output_19_1.png)
 
 
 
@@ -180,7 +175,7 @@ my_env.render()
 
 
 
-![png](output_22_0.png)
+![png](README_img/output_22_0.png)
 
 
 
@@ -200,8 +195,6 @@ action.setAction('Add',pos='front',mol='C1=CC=C1')
 obs = my_env.step(action)
 bits, info = obs.getInfo()
 ```
-
-    []
     
 
 
@@ -213,8 +206,7 @@ print ('obs info =' + str (obs.getInfo()))
     bits =(array([ 80, 145, 147, 225, 283, 330, 345, 356, 389, 501, 547, 650, 684,
            695, 713, 788, 807, 849, 862, 891, 893, 973, 980], dtype=int64),)
     obs info =((array([ 80, 145, 147, 225, 283, 330, 345, 356, 389, 501, 547, 650, 684,
-           695, 713, 788, 807, 849, 862, 891, 893, 973, 980], dtype=int64),), ['SingleAtomDonor', 'SingleAtomAcceptor', 'SingleAtomAcceptor', 'SingleAtomAcceptor', 'SingleAtomAcceptor', 'AcidicGroup', 'ZnBinder5', 'ThreeWayAttach'])
-    
+           695, 713, 788, 807, 849, 862, 891, 893, 973, 980], dtype=int64),)
 
 ### Rendering 
 
@@ -228,6 +220,6 @@ my_env.render(True)
 
 
 
-![png](output_32_0.png)
+![png](README_img/output_32_0.png)
 
 
