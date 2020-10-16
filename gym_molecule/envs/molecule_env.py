@@ -49,7 +49,7 @@ class MoleculeEnvironment(gym.Env):
         query     = action_ob.query 
         
         if (isinstance(action_ob.query,np.ndarray)):  
-            self._queryStep(query)
+            self._queryStep(action,query)
         else :
             self._simpleStep(action,position,mol)
         self.current_molecule = RWMol(Chem.MolFromSmiles(self._listToSmiles()))  
@@ -121,7 +121,7 @@ class MoleculeEnvironment(gym.Env):
             elif position == BACK:  
                 self.molecule_list.pop()
                 
-    def _queryStep(self,query):
+    def _queryStep(self, action, query):
         if action == REMOVE:
             for mol_feature in self.molecule_list:
                 if mol_feature.contains(query)== True:
