@@ -84,29 +84,6 @@ class TestMolEnv(unittest.TestCase):
 
         self.assertEqual(mol, "C")
 
-    def test_render(self):
-        # #test img
-        # mol = RWMol(Chem.MolFromSmiles("C"))
-        # mols=[]
-        # mols.append(mol)
-        # mol = RWMol(Chem.MolFromSmiles("CC"))
-        # mols.append(mol)
-        # legends = ["1. C", "2. CC"]
-
-        # img = Draw.MolsToGridImage(mols, molsPerRow=2, legends = [str(x) for x in legends])
-
-        # self.assertEqual(self.env.render(), img)
-
-        # self.env.step(self.action)
-
-        # mols.append(RWMol(Chem.MolFromSmiles("CCO")))
-        # legends.append("3. CCO")
-
-        # img = Draw.MolsToGridImage(mols, molsPerRow=3, legends = [str(x) for x in legends])
-
-        # self.assertEqual(self.env.render(), img)
-        pass
-
     def test_seed(self):
         mol = self.env._listToSmiles()
 
@@ -153,7 +130,7 @@ class TestMolEnv(unittest.TestCase):
 
     def test_queryStep(self):
         self.env.seed('C(=O)OC1=CC=CC=C1')
-        query = self.env._queryStep("remove","front",query=np.array(['Arom6']))
+        query = self.env._queryStep(query=np.array(['Arom6']))
         self.assertTrue(query)
         smiles = self.env.smiles
         s = Chem.CanonSmiles(smiles)
