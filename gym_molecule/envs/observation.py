@@ -9,7 +9,8 @@ fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
 factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
 
 class Observation:
-    """[summary]
+    """
+    Allow the computer agent a to make a decision based on the molecule observations
     """
     
     def __init__(self, mol):
@@ -28,8 +29,8 @@ class Observation:
         """
         Get information about the molecule
 
-        :return: [description]
-        :rtype: [type]
+        :return: morgen fingerprint bits and feature information both as numpy.Array objects
+        :rtype: tuple
         """
         self.info.clear()
         feats = factory.GetFeaturesForMol(self.mol)

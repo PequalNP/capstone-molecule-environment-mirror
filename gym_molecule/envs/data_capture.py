@@ -13,10 +13,12 @@ from rdkit.Chem import Descriptors
 
 class Datacapture:
     """
+    Processes the training data to compare our current molecule with the drugs in the market
     """
     
     def __init__(self,current_mol):
-        """[summary]
+        """
+        This is the constructor
 
         :param current_mol: The current molecule
         :type current_mol: RWMol
@@ -30,14 +32,15 @@ class Datacapture:
             
    
     def generate(self,smiles, verbose=False):
-        """[summary]
+        """
+        Get required information about all the molecules in the data set
 
-        :param smiles: [description]
-        :type smiles: [type]
+        :param smiles: List of smiles strings of all the molecules in the data set
+        :type smiles: string[]
         :param verbose: [description], defaults to False
         :type verbose: bool, optional
-        :return: [description]
-        :rtype: [type]
+        :return: tabular data of all the molecules in the data set
+        :rtype: pandas.DataFrame
         """
 
         moldata= []
@@ -70,10 +73,11 @@ class Datacapture:
 
 
     def current_generate(self):
-        """[summary]
+        """
+        Gets the required information about the current molecule
 
-        :return: [description]
-        :rtype: pandas
+        :return: Tabular data of the current molecule
+        :rtype: pandas.DataFrame
         """
 
         mol=self.current_mol 
@@ -96,12 +100,13 @@ class Datacapture:
         return descriptors
     
     def AromaticAtoms(self,m):
-        """[summary]
+        """
+        Gets the number of aromatic atoms in the molecule
 
-        :param m: [description]
-        :type m: [type]
-        :return: [description]
-        :rtype: [type]
+        :param m: The current molecule in the environment
+        :type m: RWMol
+        :return: The number of aromatic atoms
+        :rtype: int
         """
         aromatic_atoms = [m.GetAtomWithIdx(i).GetIsAromatic() for i in range(m.GetNumAtoms())]
         aa_count = []
@@ -112,7 +117,8 @@ class Datacapture:
         return sum_aa_count
         
     def processing(self):
-        """[summary]
+        """
+        Plots the graph, trains and evaluates the model
         """
         ######################################## Data preparation #########################################
 
