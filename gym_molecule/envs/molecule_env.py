@@ -128,9 +128,17 @@ class MoleculeEnvironment(gym.Env):
         :param Smiles: Smiles string for the molecule
         :type Smiles: string
         """
-        #TO-DO
+        
         self.current_molecule  = RWMol(Chem.MolFromSmiles(Smiles))  
         self.molecule_list = [Mol_Feature(Smiles)]
+        self.obs = Observation(self.current_molecule)
+
+        self.mol_Steps =[self.current_molecule]
+        legend = str(len(self.mol_Steps))+ ". " + Chem.MolToSmiles(self.current_molecule)
+        self.smiles.append(legend) 
+
+        self.datacapture = Datacapture(self.current_molecule)
+        self.datacapture.processing()
 
     def _listToSmiles(self):
         """
