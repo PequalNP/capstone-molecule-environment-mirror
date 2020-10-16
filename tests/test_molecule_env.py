@@ -2,9 +2,7 @@ import unittest
 from .context import molecule_env
 from .context import action
 from rdkit import Chem
-from rdkit.Chem import Draw
-from rdkit.Chem import AllChem
-from rdkit.Chem import ChemicalFeatures
+
 from rdkit.Chem import RWMol
 import numpy as np
 
@@ -129,10 +127,14 @@ class TestMolEnv(unittest.TestCase):
         self.assertEqual(m, s)
 
     def test_queryStep(self):
-        self.env.seed('C(=O)OC1=CC=CC=C1')
-        query = self.env._queryStep("remove",query=np.array(['Arom6']))
+        self.env = molecule_env.MoleculeEnvironment()
+        self.env.seed('C(=O)O')
+        self.action = action.Action()
+        self.action.setAction("add",pos="back",mol='C1=CC=CC=C1')
+        self.env.step(self.action)
+        query = self.myenv._queryStep("remove",query=np.array(['Arom6']))
         self.assertTrue(query)
-        smiles = self.env._listToSmiles()
+        smiles = myenv._listToSmiles()
         s = Chem.CanonSmiles(smiles)
         m = Chem.CanonSmiles('C(=O)O')
         self.assertEqual(m, s)
