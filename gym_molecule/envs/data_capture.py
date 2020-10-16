@@ -136,9 +136,7 @@ class Datacapture:
         curr_x = curr_X[:, 0]
         curr_y = curr_X[:, 1]
         curr_z = curr_Y
-        print(curr_x)
-        print(curr_y)
-        print(curr_z)
+   
 
         x = X[:, 0]
         y = X[:, 1]
@@ -180,9 +178,7 @@ class Datacapture:
         x_centriod = x_centriod/nx
         y_centriod = y_centriod/ny
         z_centriod = z_centriod/nz
-        print(x_centriod)
-        print(y_centriod)
-        print(z_centriod)
+      
 
         plt.style.use('default')
 
