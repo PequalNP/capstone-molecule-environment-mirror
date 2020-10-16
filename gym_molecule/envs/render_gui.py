@@ -12,7 +12,6 @@ class Render():
         self.index = -1
         self.current = -1
 
-#         self.root = Tk()
         self.topFrame = Frame(master)
         self.topFrame.pack()
         self.bottomFrame = Frame(master)
@@ -22,20 +21,17 @@ class Render():
 
         self.molLabel = Label(self.topFrame)
         self.molLabel.pack()
-        # self.graphL = Label(self.midFrame)
-        # self.graphL.pack(side=LEFT, fill=X)
         self.graph = Label(self.midFrame)
         self.graph.pack()
 
     def update(self, mol):
         self.mols.append(mol)
-        # self.obs1.append(graph1)
-        # self.obs2.append(graph2)
         self.index += 1
-        # self.frames = [PhotoImage(file='./resources/regr.gif',format = 'gif -index %i' %(i)) for i in range(360)]
+
         for i in range(360):
             pic = "/gym_molecule/envs/resources/"+str(i)+".png"
-            frame = ImageTk.PhotoImage(Image.open(pic))
+            image = Image.open(pic).resize((400,400), Image.ANTIALIAS)
+            frame = ImageTk.PhotoImage(image)
             self.frames.append(frame)
         self.obs.append(self.frames)
 
@@ -55,12 +51,7 @@ class Render():
             pic = ImageTk.PhotoImage(self.mols[self.current])
             self.molLabel.configure(image=pic)
             self.molLabel.image = pic
-            # pic = ImageTk.PhotoImage(self.obs1[self.current])
-            # self.graphL.configure(image=pic)
-            # self.graphL.image = pic
-            # pic = ImageTk.PhotoImage(self.obs2[self.current])
-            #  self.graph.configure(image=pic)
-            # self.graph.image = pic
+
             self.frames = self.obs[self.current]
             self.midFrame.after(0, self.updateGif, 0)
 
@@ -70,32 +61,17 @@ class Render():
             pic = ImageTk.PhotoImage(self.mols[self.current], master = self.molLabel)
             self.molLabel.configure(image=pic)
             self.molLabel.image = pic
-            # pic = ImageTk.PhotoImage(self.obs1[self.current])
-            # self.graphL.configure(image=pic)
-            # self.graphL.image = pic
-            # pic = ImageTk.PhotoImage(self.obs2[self.current])
-            # self.graph.configure(image=pic)
-            # self.graph.image = pic
+
             self.frames = self.obs[self.current]
             self.midFrame.after(0, self.updateGif, 0)
 
     def render(self):
-        # image = ImageTk.PhotoImage(img)
-        # sprite = self.canvas.create_image(150,150, image= image)
-        # img = Draw.MolToImage(self.current_molecule, size=(300,300), kekulize=True, wedgeBonds=True)
-        # root = Tk()
 
         if len(self.mols) != 0:
             self.current = self.index
             pic = ImageTk.PhotoImage(self.mols[self.index])
             self.molLabel.configure(image=pic)
             self.molLabel.image = pic
-            # pic = ImageTk.PhotoImage(self.obs1[self.index])
-            # self.graphL.configure(image=pic)
-            # self.graphL.image = pic
-            # pic = ImageTk.PhotoImage(self.obs2[self.index])
-            # self.graph.configure(image=pic)
-            # self.graph.image = pic
 
             prevButton = Button(self.bottomFrame, text="PREVIOUS", command = self.prev)
             prevButton.pack(side=LEFT)
