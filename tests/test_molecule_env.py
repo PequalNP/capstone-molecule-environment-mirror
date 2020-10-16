@@ -6,6 +6,7 @@ from rdkit.Chem import Draw
 from rdkit.Chem import AllChem
 from rdkit.Chem import ChemicalFeatures
 from rdkit.Chem import RWMol
+import numpy as np
 
 class TestMolEnv(unittest.TestCase):
 
@@ -151,10 +152,13 @@ class TestMolEnv(unittest.TestCase):
         self.assertEqual(m, s)
 
     def test_queryStep(self):
-        query = self.env._queryStep("add","front","C","")
-        self.assertFalse(query)
-        query = self.env._queryStep("remove","front","C","")
+        self.env.seed('C(=O)OC1=CC=CC=C1')
+        query = self.env._queryStep("remove","front",query=np.array(['Arom6']))
         self.assertTrue(query)
+        smiles = self.env.smiles
+        s = Chem.CanonSmiles(smiles)
+        m = Chem.CanonSmiles('C(=O)O')
+        self.assertEqual(m, s)
 
 
 if __name__ == '__main__':
