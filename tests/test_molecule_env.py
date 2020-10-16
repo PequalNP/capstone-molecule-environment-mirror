@@ -127,14 +127,12 @@ class TestMolEnv(unittest.TestCase):
         self.assertEqual(m, s)
 
     def test_queryStep(self):
-        self.env = molecule_env.MoleculeEnvironment()
         self.env.seed('C(=O)O')
-        self.action = action.Action()
         self.action.setAction("add",pos="back",mol='C1=CC=CC=C1')
         self.env.step(self.action)
-        query = self.myenv._queryStep("remove",query=np.array(['Arom6']))
+        query = self.env._queryStep("remove",query=np.array(['Arom6']))
         self.assertTrue(query)
-        smiles = myenv._listToSmiles()
+        smiles = self.env._listToSmiles()
         s = Chem.CanonSmiles(smiles)
         m = Chem.CanonSmiles('C(=O)O')
         self.assertEqual(m, s)
