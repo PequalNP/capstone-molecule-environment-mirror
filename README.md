@@ -15,6 +15,10 @@
 
 Reinforcement learning environment for inverse drug design.
 
+The objective of the project was to create an environment which will allow the computer agent to make decisions/actions based on the state of the environment. In order to achieve this, open source packages such as OpenAI Gym, a popular framework for building bench marking environments for RL agents and RDkit which is a cheminformatics package used in computational chemistry.
+This environment would be developed into an on going Msc project and integrated in future inverse design and drug discovery research.The approach to this task at hand is to create an environment which has 2 main functionalities which the agent can make use of. First it is environment step function which takes an action from the agent such “add” or “remove” an atom. This changes the current molecule and the action needs to be chemically valid.
+Another function is to reset the environment by returning the current molecule to the initial molecule that had no changes implemented or change it to a single carbon atom.Other functions such as render will show the molecules current state of the environment.
+
 ## Set-up
 
 Install dependencies:
